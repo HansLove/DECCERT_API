@@ -20,7 +20,7 @@ const ruta_user=require('./routes/route.user.js')
 app.use(bodyParser.urlencoded({ extended: true, limit: '10000000mb'})); 
 app.use(bodyParser.json());
 
-app.use(express.static('./lib/views/'));
+// app.use(express.static('./lib/views/'));
 
 app.use(express.json())
 

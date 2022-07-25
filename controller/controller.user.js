@@ -41,34 +41,34 @@ control.editarUser=async(req,res)=>{
 
 
 
-control.login=async(req,res)=>{
+// control.login=async(req,res)=>{
 
-    try {
-        const {name,password}=req.body
-        console.log('name:' ,name, 'password; ',password)
+//     try {
+//         const {name,password}=req.body
+//         console.log('name:' ,name, 'password; ',password)
 
-        const userData=await user.findOne({name:name})
-        const password_hash=userData.password
+//         const userData=await user.findOne({name:name})
+//         const password_hash=userData.password
         
-        bcrypt.compare(password, password_hash, function(err, result) {
+//         bcrypt.compare(password, password_hash, function(err, result) {
 
-        const token=jwt.sign({id:userData._id,name:userData.name},
-            process.env.JWT)
+//         const token=jwt.sign({id:userData._id,name:userData.name},
+//             process.env.JWT)
 
-        res.json({
-            respuesta:result,
-            status:true,
-            token:token})
-        });
+//         res.json({
+//             respuesta:result,
+//             status:true,
+//             token:token})
+//         });
 
-    } catch (error) {
-        console.log('error==> ',error)
-        res.json({status:false,respuesta:false})
-    }
+//     } catch (error) {
+//         console.log('error==> ',error)
+//         res.json({status:false,respuesta:false})
+//     }
 
 
 
-}
+// }
 
 control.proof=(req,res)=>{
     res.status(200).json({
