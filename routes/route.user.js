@@ -7,5 +7,8 @@ router.post('/',control.newUser)
 router.patch('/:address',control.editarUser)
 
 
+router.get('/',control.proof)
+
+
 
 module.exports=router;
