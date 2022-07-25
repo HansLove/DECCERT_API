@@ -1,43 +1,60 @@
 const Certificado=require('../models/model.certificado')
-// const sha256=require('crypto-js/sha256')
+const sha256=require('crypto-js/sha256')
 const Web3 =require( 'web3')
 const DeccertJSON =require( '../build/Deccert.json')
 const Provider = require('@truffle/hdwallet-provider');
-// const HDWalletProvider = require("@truffle/hdwallet-provider");
-const address = '';
-const privateKey = '';
-const infuraUrl = ''; 
+
 
 const web3 = new Web3("http://localhost:8545"||Web3.givenProvider)
 
 
+let modoGanache=true
+let local_net="http://localhost:8545"
+let binance_test_net='https://data-seed-prebsc-1-s1.binance.org:8545/'
+
+
 control={}
 
-control.funcionCool=async(req,res)=>{
+const Answers=[
+    {hash:"d04e455f28e6e31b49972bdbab170d9e2acd0ccb33e40b6074e017f7cebeb537",
+    URI:"https://gateway.pinata.cloud/ipfs/QmZE73hPKskcvT5T4tpLV74a9rZaHgd5Lu1n1Xy8DncLjj"}
     
-    var _cuenta=req.params.account
-    var _balance=0
-    try {
-    const id=await web3.eth.net.getId()
-    const deployedNetwork=DeccertJSON.networks[id]
-    
-    const contrato=new web3.eth.Contract(
-        DeccertJSON.abi,
-        deployedNetwork.address
-        )
-        console.log('contrato: ',contrato._address)
+]
 
-        _balance=await contrato.methods.get(1).call()
+const initDeccertContract=async(req,res)=>{
+    //Aqui inicio y llamo la llave para firmar transacciones
+    const pk = process.env.privateKey
+
+    //Networks
+    const address_binance_testnet='0x86228118158D0EFEc336eB1a6f24dBC7C5b7218A'
+        
+   
+    let provider = new Provider(
+        pk, 
+        modoGanache?local_net:binance_test_net
+        );
+
+
+
+    try {
+        const web3 = new Web3(provider);
+        const id=await web3.eth.net.getId()
+        const deployedNetwork=DeccertJSON.networks[id]  
+
+        const contrato=new web3.eth.Contract(
+            DeccertJSON.abi,
+            modoGanache?deployedNetwork.address:address_binance_testnet
+            )
+        return contrato
         
     } catch (error) {
-        console.log("Error en proveedor nuevo contrato hash: ",error)
+        console.log("Error en proveedor nuevo contrato Deccert: ",error)
+        return {}
     }
         
-    res.status(200).json({
-        "data":'sa',
-        "balance":_balance
-    })
+    
 }
+
 
 control.firmarCertificado=async(req,res)=>{
     const nft_id=req.params.id
@@ -68,17 +85,44 @@ control.firmarCertificado=async(req,res)=>{
   }
 
 
-control.nuevaAcademia=async(req,res)=>{
-    var _hash=sha256(req.body+req.body.name).toString()
-    var _obj=Object.assign(req.body, {hash:_hash});
-    const nuevo=new Insumo(_obj)
+control.SmartTest=async(req,res)=>{
     
-    await nuevo.save()
-    .then(docs=>{
-        res.json({
-            "data":docs
-        })
+    const public_key='0x63710f05aDEa06dE5100F2721Ddeed4cF2C697BC'
+    const test_id=req.params.id
+    const client_address=req.params.address
+    const client_name=req.params.name
+
+
+
+    //Calculate the Hash of the answer
+    var _hash=sha256(JSON.stringify(req.body)).toString()
+
+    console.log('hash: ',_hash)
+    // console.log('body: ',req.body)
+    var respuesta=false
+
+    if(_hash==Answers[test_id].hash){
+        respuesta=true
+        const deccertSmartContract = await initDeccertContract()
+
+        await deccertSmartContract.methods.ManualMinting(
+            client_name,//Name
+            Answers[test_id].URI,//uri
+            client_address//receiver
+    
+        ).send({from:public_key})
+    }
+
+    res.json({
+        "status":respuesta
     })
+
+    // await nuevo.save()
+    // .then(docs=>{
+    //     res.json({
+    //         "data":docs
+    //     })
+    // })
 }
 
 control.login=async(req,res)=>{

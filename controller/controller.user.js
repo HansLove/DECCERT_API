@@ -16,6 +16,33 @@ control.newUser=async(req,res)=>{
 
 }
 
+
+
+
+control.dameOneUser=async(req,res)=>{
+    const respuesta=await User.find({address:req.params.address})
+    res.status(200).json({
+        data:respuesta
+    })
+}
+
+control.editarUser=async(req,res)=>{
+    
+    let user_address=req.params.address
+    await User.findOneAndUpdate({address:user_address},req.body).then(result=>{
+        res.status(200).json({
+            new:result,
+            status:true
+        })
+    })
+    //await Producto.updateOne(filter,req.body)
+    
+   
+    
+}
+
+
+
 control.login=async(req,res)=>{
 
     try {
@@ -44,15 +71,6 @@ control.login=async(req,res)=>{
 
 
 }
-
-
-control.dameOneUser=async(req,res)=>{
-    const respuesta=await User.find({address:req.params.address})
-    res.status(200).json({
-        data:respuesta
-    })
-}
-
 
 
 

@@ -4,7 +4,9 @@ const scheme=mongoose.Schema({
     name:{type:String,required:true},
     image:{type:String},
     address:{type:String,required:true},
-    description:{type:String}
+    description:{type:String},
+    occupation:{type:String}
+
 })
 
 module.exports=mongoose.model('User',scheme)
