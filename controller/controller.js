@@ -1,11 +1,8 @@
-const Certificado=require('../models/model.certificado')
 const sha256=require('crypto-js/sha256')
 const Web3 =require( 'web3')
 const DeccertJSON =require( '../build/Deccert.json')
 const Provider = require('@truffle/hdwallet-provider');
 
-
-const web3 = new Web3("http://localhost:8545"||Web3.givenProvider)
 
 
 let modoGanache=true
