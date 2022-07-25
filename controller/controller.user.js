@@ -1,3 +1,4 @@
+const { json } = require('body-parser')
 const User=require('../models/model.user')
 // const sha256=require('crypto-js/sha256')
 
@@ -35,10 +36,7 @@ control.editarUser=async(req,res)=>{
             status:true
         })
     })
-    //await Producto.updateOne(filter,req.body)
-    
-   
-    
+       
 }
 
 
@@ -70,6 +68,12 @@ control.login=async(req,res)=>{
 
 
 
+}
+
+control.proof=(req,res)=>{
+    res.status(200).json({
+        name:'Deccert'
+    })
 }
 
 
