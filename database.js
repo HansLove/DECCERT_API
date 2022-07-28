@@ -1,6 +1,10 @@
 const mongoose=require('mongoose')
 
-const URI='mongodb://localhost/deccert'
+// const URI='mongodb://localhost/deccert'
+const password=process.env.mongo
+const URI=`mongodb+srv://Hans:${password}@clusteralfa.dscj2.mongodb.net/?retryWrites=true&w=majority`
+// const URI=`mongodb+srv://Hans:wVDLcsaSpesacE0X@clusteralfa.dscj2.mongodb.net/?retryWrites=true&w=majority`
+
 
 mongoose.connect(URI,{
     useNewUrlParser:true,
