@@ -17,6 +17,12 @@ control.newUser=async(req,res)=>{
 
 }
 
+control.get=async(req,res)=>{
+    const respuesta=await User.find()
+    res.status(200).json({
+        data:respuesta
+    })
+}
 
 
 

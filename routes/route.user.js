@@ -8,7 +8,7 @@ router.post('/',control.newUser)
 router.patch('/:address',control.editarUser)
 
 
-router.get('/',control.proof)
+router.get('/',control.get)
 
 
 
