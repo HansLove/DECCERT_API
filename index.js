@@ -14,7 +14,7 @@ app.use(cors())
 app.set('port',process.env.PORT||5002)
 
 
-const ruta_1=require('./routes/route_1.js')
+const ruta_1=require('./routes/route.nft.js')
 const ruta_user=require('./routes/route.user.js')
 
 
