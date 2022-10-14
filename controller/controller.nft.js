@@ -11,6 +11,8 @@ let binance_test_net='https://data-seed-prebsc-1-s1.binance.org:8545/'
 
 control={}
 
+const Participation='https://gateway.pinata.cloud/ipfs/QmUeR4fVw7TpGMgifYFQsxzp14XcZh1B37boFaaEunqZ4t'
+
 const Answers=[
     {
         hash:"d04e455f28e6e31b49972bdbab170d9e2acd0ccb33e40b6074e017f7cebeb537",
